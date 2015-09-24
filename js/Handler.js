@@ -1,17 +1,19 @@
-var Handler = (function() {
+var Handler = (function(CobraHandler, DOMHandler) {
 	function Handler() {
 		this.currentPage = "index";
+		this.currentRoom = null;
+
+		this.listenConnectButton();
 	};
 
 	Handler.prototype.change = function(page) {
-
 		switch(page) {
 			case 'list':
 					// Go to list
 					this.currentPage = "list";
 				break;
 			case 'index':
-			case default:
+			default:
 					// Return to index
 					this.currentPage = "index";
 				break;
@@ -30,5 +32,9 @@ var Handler = (function() {
 		}
 	};
 
+	Handler.prototype.listenConnectButton = function() {
+
+	};
+
 	return Handler;
-})();
+})(Update, DOMUpdate);
