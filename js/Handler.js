@@ -1,7 +1,7 @@
 var Handler = (function() {
 	function Handler() {
 		this.currentPage = "index";
-	}
+	};
 
 	Handler.prototype.change = function(page) {
 
@@ -18,17 +18,17 @@ var Handler = (function() {
 		}
 
 		this.route();
-	}
+	};
 
 	Handler.prototype.route = function() {
 		if (this.currentPage === "index") {
-			
+			//
 		} else if (this.currentPage === "list") {
-
+			//
 		} else {
 			return ;
 		}
-	}
+	};
 
 	return Handler;
 })();
