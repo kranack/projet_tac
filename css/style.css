@@ -14,8 +14,11 @@ p {
 div.search {
 	text-align: center;
 }
+div.nick {
+	text-align: center;
+}
 div.list{
-	text-align: center
+	text-align: center;
 }
 div.nick_list{
 	text-align: left;

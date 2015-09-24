@@ -1,0 +1,1 @@
+/*Mise à jour des fonctionalités via les données reçues par cobra*/
