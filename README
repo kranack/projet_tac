@@ -1,1 +1,15 @@
 Projet JAVASCRIPT
+
+Architecture :
+
+css
+|-- style.css
+js
+|-- libs
+|-- |-- cobra.js
+|-- |-- socket.io.js
+|-- app.js
+|-- DOMUpdate.js
+|-- Handler.js
+|-- Update.js
+index.html
