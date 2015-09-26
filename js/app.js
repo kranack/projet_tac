@@ -1,4 +1,3 @@
-var Update = new Update();
-var DOMUpdate = new DOMUpdate();
+"use strict";
 
-var Handler = new Handler();
+var AppHandler = new AppHandler();
