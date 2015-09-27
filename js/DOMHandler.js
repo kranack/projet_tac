@@ -32,26 +32,30 @@ var DOMHandler = (function() {
 	/**
 	 * Function : find
 	 * @param {object} obj serialize object to find
+	 * @param {DOMElement} parent parent element
 	 * @return {null|DOMElement}  DOMElement found in the container
 	 */
-	DOMHandler.prototype.find = function(obj) {
+	DOMHandler.prototype.find = function(obj, parent) {
 		var i = 0,
-				j = 0;
+				j = 0,
+				referer = parent;
 
 		if (obj === null || obj.element === null || obj.attr === null) {
 			return null;
 		}
+		if (referer === null || referer === undefined) {
+			referer = this.container;
+		}
 
-		for (i=0; i<this.container.children.length; i++) {
-			if (this.container.children[i].localName == obj.element) {
-				var attr = this.container.children[i].attributes;
+		for (i=0; i<referer.children.length; i++) {
+			if (referer.children[i].localName == obj.element) {
+				var attr = referer.children[i].attributes;
 				for (j=0; j<attr.length; j++) {
 					if (attr[j].name == obj.attr.name
 							&& attr[j].value == obj.attr.value) {
-						return this.container.children[i];
+						return referer.children[i];
 					}
 				}
-
 			}
 		}
 
@@ -91,6 +95,36 @@ var DOMHandler = (function() {
 
 		element[completeAction] = callback;
 	};
+
+	/**
+	 * Function : show
+	 * @param {DOMElement} element element to show
+	 */
+	DOMHandler.prototype.show = function(element) {
+		if (element === undefined) {
+			var elems = DOMHelper.container.children;
+			for (var i=0; i<elems.length; i++) {
+				DOMHelper.show(elems[i]);
+			}
+		} else {
+			element.style.display = "block";
+		}
+	}
+
+	/**
+	 * Function : hide
+	 * @param {DOMElement} element element to hide
+	 */
+	DOMHandler.prototype.hide = function(element) {
+		if (element === undefined) {
+			var elems = DOMHelper.container.children;
+			for (var i=0; i<elems.length; i++) {
+				DOMHelper.hide(elems[i]);
+			}
+		} else {
+			element.style.display = "none";
+		}
+	}
 
 	return DOMHandler;
 })();

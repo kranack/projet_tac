@@ -1,12 +1,17 @@
 "use strict";
 
 var AppHandler = (function(CobraHandler, DOMHelper) {
-	
+
 	function AppHandler() {
 		this.currentPage = "index";
 		this.currentRoom = null;
+		this.breadcrumb = DOMHelper.find(DOMHelper.serialize('div#breadcrumb'));
+		this.index = DOMHelper.find(DOMHelper.serialize('div#index'));
+		this.list = DOMHelper.find(DOMHelper.serialize('div#list'));
+		this.connectButton = DOMHelper.find(DOMHelper.serialize("button#connectButton"), this.index);
 
 		this.listenConnectButton();
+		this.listenBreadcrumb();
 	}
 
 	AppHandler.prototype.change = function(page) {
@@ -26,26 +31,33 @@ var AppHandler = (function(CobraHandler, DOMHelper) {
 	}
 
 	AppHandler.prototype.route = function() {
+		DOMHelper.hide();
+
 		if (this.currentPage === "index") {
-			//
-			console.log('goto index page');
+			DOMHelper.show(this.index);
 		} else if (this.currentPage === "list") {
-			//
-			console.log('goto list page');
+			DOMHelper.show(this.list);
+			DOMHelper.show(this.breadcrumb);
 		} else {
 			return ;
 		}
 	}
 
 	AppHandler.prototype.listenConnectButton = function() {
-		var element = DOMHelper.find(DOMHelper.serialize("button#connectButton"));
-
 		(function(self) {
-			DOMHelper.on('click', element, function() {
+			DOMHelper.on('click', self.connectButton, function() {
 				AppHandler.prototype.change.call(self, 'list');
 			});
 		})(this);
 	};
+
+	AppHandler.prototype.listenBreadcrumb = function() {
+		(function(self) {
+			DOMHelper.on('click', self.breadcrumb, function() {
+				AppHandler.prototype.change.call(self, 'index');
+			});
+		})(this);
+	}
 
 	return AppHandler;
 })(CobraHandler, DOMHelper);
