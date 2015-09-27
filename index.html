@@ -9,21 +9,26 @@
     <body>
         <h1>Liste de courses collaborative</h1>
         <div id="container" class="container">
+          <div id="breadcrumb" class="breadcrumb">
+            <a href="#"> Go back to index </a>
+          </div>
+          <div id="index">
             <div id="nick" class="nick">
-                <p>Choisir un pseudo : <input type="text" id="nick_choise"/></p>
+                <p>Choisir un pseudo : <input type="text" id="nickName_input" name="nickName"></p>
             </div>
-    		<div id="search" class="search">
-    			<p>Rechercher une liste : <input type="text" id="search_list"/></p>
-    		</div>
+        		<div id="search" class="search">
+        			<p>Rechercher une liste : <input type="text" id="listName_input" name="listName"></p>
+        		</div>
             <button id="connectButton">Connect</button>
-    		<div id="list" class="list">
-    			<div id="nick_list">
+          </div>
+      		<div id="list" class="list">
+            Welcome to list page!!
+      			<div id="nick_list">
+            </div>
+            <div id="list_body">
 
-                </div>
-                <div id="list_body">
-
-                </div>
-    		</div>
+            </div>
+      		</div>
         </div>
 
         <!-- LIBS -->

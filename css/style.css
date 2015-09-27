@@ -11,12 +11,9 @@ p {
     font-family: "Times New Roman";
     font-size: 20px;
 }
-div.search {
-	text-align: center;
-}
-div.nick {
-	text-align: center;
-}
+
+div.search,
+div.nick,
 div.list{
 	text-align: center;
 }
@@ -25,4 +22,9 @@ div.nick_list{
 }
 div.list_body{
 	text-align: right;
+}
+
+.breadcrumb,
+.list {
+  display: none;
 }
