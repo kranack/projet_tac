@@ -3,16 +3,29 @@
 var AppHandler = (function(CobraHandler, DOMHelper) {
 
 	function AppHandler() {
+		this.init();
+
+		/* Setup application */
+		this.listenConnectButton();
+		this.listenBreadcrumb();
+
+		/* Setup Cobra */
+		CobraHandler.connection();
+		//CobraHandler.joinRoom('test');
+	};
+
+	AppHandler.prototype.init = function() {
+		/* Init vars */
 		this.currentPage = "index";
 		this.currentRoom = null;
+		this.user = null;
+		this.room = null;
+		/* Init DOM */
 		this.breadcrumb = DOMHelper.find(DOMHelper.serialize('div#breadcrumb'));
 		this.index = DOMHelper.find(DOMHelper.serialize('div#index'));
 		this.list = DOMHelper.find(DOMHelper.serialize('div#list'));
 		this.connectButton = DOMHelper.find(DOMHelper.serialize("button#connectButton"), this.index);
-
-		this.listenConnectButton();
-		this.listenBreadcrumb();
-	}
+	};
 
 	AppHandler.prototype.change = function(page) {
 		switch(page) {
@@ -60,4 +73,4 @@ var AppHandler = (function(CobraHandler, DOMHelper) {
 	}
 
 	return AppHandler;
-})(CobraHandler, DOMHelper);
+})(CobraHelper, DOMHelper);
