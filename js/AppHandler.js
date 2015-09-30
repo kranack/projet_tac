@@ -57,9 +57,16 @@ var AppHandler = (function(CobraHandler, DOMHelper) {
 	}
 
 	AppHandler.prototype.listenConnectButton = function() {
+		var username = DOMHelper.find(DOMHelper.serialize("input#nickName_input"), DOMHelper.find(DOMHelper.serialize("p"), DOMHelper.find(DOMHelper.serialize("div#nick"), this.index)));
+		var list = DOMHelper.find(DOMHelper.serialize("input#listName_input"), DOMHelper.find(DOMHelper.serialize("p"), DOMHelper.find(DOMHelper.serialize("div#search"), this.index)));
+
 		(function(self) {
 			DOMHelper.on('click', self.connectButton, function() {
-				AppHandler.prototype.change.call(self, 'list');
+				if (DOMHelper.require(username) && DOMHelper.require(list)) {
+					AppHandler.prototype.change.call(self, 'list');
+				} else {
+					console.log('error! REQUIRE username && list');
+				}
 			});
 		})(this);
 	};

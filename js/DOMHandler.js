@@ -1,7 +1,7 @@
 /*Mise à jour de l'interface utilisateur*/
 "use strict";
 
-var DOMHandler = (function() {
+var DOMHandler = (function(DOMObject) {
 
 	/**
 	 * Function DOMHandler
@@ -31,7 +31,7 @@ var DOMHandler = (function() {
 
 	/**
 	 * Function : find
-	 * @param {object} obj serialize object to find
+	 * @param {DOMObject} obj serialize object to find
 	 * @param {DOMElement} parent parent element
 	 * @return {null|DOMElement}  DOMElement found in the container
 	 */
@@ -40,15 +40,19 @@ var DOMHandler = (function() {
 				j = 0,
 				referer = parent;
 
-		if (obj === null || obj.element === null || obj.attr === null) {
+		if (obj === null || obj.element === null) {
 			return null;
 		}
+
 		if (referer === null || referer === undefined) {
 			referer = this.container;
 		}
 
 		for (i=0; i<referer.children.length; i++) {
 			if (referer.children[i].localName == obj.element) {
+				if (obj.isNull()) {
+					return referer.children[i];
+				}
 				var attr = referer.children[i].attributes;
 				for (j=0; j<attr.length; j++) {
 					if (attr[j].name == obj.attr.name
@@ -65,17 +69,19 @@ var DOMHandler = (function() {
 	/**
 	 * Function : serialize
 	 * @param {string} string string defining the DOMElement
-	 * @return {object}  Serialized object containing the DOMElement data
+	 * @return {DOMObject}  Serialized object containing the DOMElement data
 	 */
 	DOMHandler.prototype.serialize = function(string) {
-		var obj = {element: "", attr: {name: "", value: ""}};
+		var obj = new DOMObject();
 
 		var limiter = new RegExp("[#\.]", "g");
 		var attributes = string.split(limiter);
 
 		obj.element = attributes[0];
-		obj.attr.name = this._attrs[string.match(limiter)[0]];
-		obj.attr.value = attributes[1];
+		if (attributes.length > 1) {
+			obj.attr.name = this._attrs[string.match(limiter)[0]];
+			obj.attr.value = attributes[1];
+		}
 
 		return obj;
 	};
@@ -126,7 +132,18 @@ var DOMHandler = (function() {
 		}
 	}
 
+	DOMHandler.prototype.require = function(element) {
+		if (element === undefined) {
+			return null;
+		}
+		if (element.value.trim() === "") {
+			return false;
+		}
+
+		return true;
+	}
+
 	return DOMHandler;
-})();
+})(DOMObject);
 
 var DOMHelper = new DOMHandler();
