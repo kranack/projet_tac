@@ -25,40 +25,41 @@ var CobraHandler = (function(Cobra){
 
 	};
 
+	CobraHandler.prototype.sendAnEntry = function(message){
+		Cobra.prototype.sendMessage.call(this, message, this.roomName, true);
+
+	}
 	/*Utilisation de la classe cobra pour se connecter à la room*/
-	CobraHandler.prototype.connection = function(){
+	CobraHandler.prototype.connection = function(room){
+		this.roomName = room;
 		Cobra.prototype.connect.call(this, this.url);
 	};
 
 	CobraHandler.prototype.connectionCallback = function () {
-			Cobra.prototype.joinRoom.call(this, 'test');
+			Cobra.prototype.joinRoom.call(this, this.roomName);
 	}
 
 	CobraHandler.prototype.joinRoomCallback = function (roomName) {
 		 // appel à l'API pour récupérer tous les messages de la room roomName
-		 var xhr = new XMLHttpRequest();
-		 xhr.open('GET', this.apiUrl + roomName, true);
-		 xhr.send(null);
+      var xhr = new XMLHttpRequest();
+      xhr.open('GET', this.apiUrl + roomName, true);
+      xhr.send(null);
 
-		 xhr.onreadystatechange = function() {
-      if (xhr.readyState == 4 && (xhr.status == 200 || xhr.status == 0)) {
-				var response = JSON.parse(xhr.response);
+     xhr.onreadystatechange = function() {
+        if (xhr.readyState == 4 && (xhr.status == 200 || xhr.status == 0)) {
+            console.log("complete");
+            var result = JSON.parse(xhr.response);
+            console.log(result);
+            for (var i = 0; i < result.Events.length; i++) {
+               var content = JSON.parse(result.Events[i].content);
 
-					if (response.Error == true) {
-						console.log(response.Message);
-						return ;
-					}
+               var displayList = document.getElementById("list_body");
+               displayList.innerHTML += "\n"+content.message;           
 
-					for (var i = 0; i < response.Events.length; i++) {
-						 var content = response.Events[i].content;
-						 // recuperer les infos contenues dans les messages
-						 console.log(content);
-					}
-
-					// Pour envoyer un message dans toute la room
-					Cobra.prototype.sendMessage.call(this, {content : "test"}, roomName, true);
+               //console.log(content);
+            }
+        }
       }
-		};
 	}
 
 	CobraHandler.prototype.messageReceivedCallback = function (message) {
