@@ -29,7 +29,7 @@ var CobraHandler = (function(Cobra, DOMHelper){
 
 		Cobra.prototype.sendMessage.call(this, user, message, this.roomName, true);
 
-	}
+	};
 	/*Utilisation de la classe cobra pour se connecter à la room*/
 	CobraHandler.prototype.connection = function(room){
 		this.roomName = room;
@@ -37,8 +37,10 @@ var CobraHandler = (function(Cobra, DOMHelper){
 	};
 
 	CobraHandler.prototype.connectionCallback = function () {
+        console.log(this.socket);
+		this.socket.emit("clients", {user: "test", toAll: true});
 		Cobra.prototype.joinRoom.call(this, this.roomName);
-	}
+	};
 
 	CobraHandler.prototype.joinRoomCallback = function (roomName) {
 		 // appel à l'API pour récupérer tous les messages de la room roomName

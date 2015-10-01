@@ -23,6 +23,10 @@ var Cobra = (function(){
             self.connectionCallback();
         });
 
+        self.socket.on('clients', function(data) {
+            console.log(data);
+        });
+
         self.socket.on("message", function(msg) {
             //console.log("message : " + JSON.stringify(msg));
             if(msg.type == "infos")
@@ -46,9 +50,9 @@ var Cobra = (function(){
   }
 
   Cobra.prototype.disconnect = function() {
-    console.log('pd');
+    console.log('disconnected from ' + this.roomName);
     this.socket.disconnect();
-  }
+  };
 
   Cobra.prototype.joinRoom = function(roomName){
       var self = this;

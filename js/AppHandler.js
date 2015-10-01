@@ -63,10 +63,8 @@ var AppHandler = (function(CobraHandler, DOMHelper) {
 		}
 	};
 
-	AppHandler.prototype.sendAnEntry = function(){
-		var message = DOMHelper.find(DOMHelper.serialize("input#entree"), DOMHelper.find(DOMHelper.serialize("div#insertingAnEntry"), this.list));
-		CobraHelper.sendAnEntry(this.user, message.value);
-		message.value = "";
+	AppHandler.prototype.sendAnEntry = function(message){
+		CobraHelper.sendAnEntry(this.user, message);
 	};
 
 	AppHandler.prototype.listenConnectButton = function() {
@@ -78,6 +76,16 @@ var AppHandler = (function(CobraHandler, DOMHelper) {
 			DOMHelper.on('click', self.connectButton, function() {
 				AppHandler.prototype.connectionHandler.call(self, username, list);
 			});
+            DOMHelper.on('keyup', username, function(event) {
+                if (event.keyCode == 13) {
+                    AppHandler.prototype.connectionHandler.call(self, username, list);
+                }
+            });
+            DOMHelper.on('keyup', list, function(event) {
+                if (event.keyCode == 13) {
+                    AppHandler.prototype.connectionHandler.call(self, username, list);
+                }
+            });
 		})(this);
 	};
 
@@ -90,10 +98,18 @@ var AppHandler = (function(CobraHandler, DOMHelper) {
 	};
 
 	AppHandler.prototype.listenSendButton = function() {
+        var message = DOMHelper.find(DOMHelper.serialize("input#entree"), DOMHelper.find(DOMHelper.serialize("div#insertingAnEntry"), this.list));
 		(function(self) {
 			DOMHelper.on('click', self.submitEntree,function(){
-				self.sendAnEntry();
+				self.sendAnEntry(message.value);
+                message.value = "";
 			});
+            DOMHelper.on('keyup', message, function(event) {
+                if (event.keyCode == 13) {
+                    self.sendAnEntry(message.value);
+                    message.value = "";
+                }
+            });
 		})(this);
 	};
 
