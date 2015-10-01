@@ -108,9 +108,9 @@ var DOMHandler = (function(DOMObject) {
 	 */
 	DOMHandler.prototype.show = function(element) {
 		if (element === undefined) {
-			var elems = DOMHelper.container.children;
+			var elems = this.container.children;
 			for (var i=0; i<elems.length; i++) {
-				DOMHelper.show(elems[i]);
+				this.show(elems[i]);
 			}
 		} else {
 			element.style.display = "block";
@@ -123,9 +123,9 @@ var DOMHandler = (function(DOMObject) {
 	 */
 	DOMHandler.prototype.hide = function(element) {
 		if (element === undefined) {
-			var elems = DOMHelper.container.children;
+			var elems = this.container.children;
 			for (var i=0; i<elems.length; i++) {
-				DOMHelper.hide(elems[i]);
+				this.hide(elems[i]);
 			}
 		} else {
 			element.style.display = "none";
