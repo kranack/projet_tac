@@ -1,7 +1,7 @@
 /*Mise à jour des fonctionalités via les données reçues par cobra*/
 "use strict";
 
-var CobraHandler = (function(Cobra){
+var CobraHandler = (function(Cobra, DOMHelper){
 
 	function CobraHandler() {
 		this.url = "http://cobra-framework.com:8080";
@@ -25,8 +25,9 @@ var CobraHandler = (function(Cobra){
 
 	};
 
-	CobraHandler.prototype.sendAnEntry = function(message){
-		Cobra.prototype.sendMessage.call(this, message, this.roomName, true);
+	CobraHandler.prototype.sendAnEntry = function(user, message){
+
+		Cobra.prototype.sendMessage.call(this, user, message, this.roomName, true);
 
 	}
 	/*Utilisation de la classe cobra pour se connecter à la room*/
@@ -36,7 +37,7 @@ var CobraHandler = (function(Cobra){
 	};
 
 	CobraHandler.prototype.connectionCallback = function () {
-			Cobra.prototype.joinRoom.call(this, this.roomName);
+		Cobra.prototype.joinRoom.call(this, this.roomName);
 	}
 
 	CobraHandler.prototype.joinRoomCallback = function (roomName) {
@@ -54,7 +55,7 @@ var CobraHandler = (function(Cobra){
                var content = JSON.parse(result.Events[i].content);
 
                var displayList = document.getElementById("list_body");
-               displayList.innerHTML += "\n"+content.message;           
+               displayList.innerHTML += "<br>" + content.user + " : " + content.message;
 
                //console.log(content);
             }
@@ -63,24 +64,25 @@ var CobraHandler = (function(Cobra){
 	}
 
 	CobraHandler.prototype.messageReceivedCallback = function (message) {
-			// Lors de l'arrivée dans une room donne la liste des utilisateurs contenus dans la room
-			if(message.type == "infos"){
-					for(var i = 0; i < message.clients.length; i++)
-					{
-							// Contient l'id du client
-							var client = message.clients[i];
-
-					}
-					// Mon id attribué par la room
-					this.socketId = message.socketId;
+		// Lors de l'arrivée dans une room donne la liste des utilisateurs contenus dans la room
+		if(message.type == "infos"){
+			for(var i = 0; i < message.clients.length; i++)
+			{
+				// Contient l'id du client
+				var client = message.clients[i];
 			}
-			else if (message.message) {
-				 // Message reçu, je le traite
-				 console.log(message.message);
-		 }
+			// Mon id attribué par la room
+			this.socketId = message.socketId;
+		}
+		else if (message.message) {
+		 // Message reçu, je le traite
+		 //console.log(message.message);
+			var displayList = document.getElementById("list_body");
+            displayList.innerHTML += "<br>" + message.user + " : " + message.message;
+	 	}
 	}
 
 	return CobraHandler;
-})(Cobra);
+})(Cobra, DOMHelper);
 
 var CobraHelper = new CobraHandler();

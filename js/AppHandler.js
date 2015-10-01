@@ -21,6 +21,7 @@ var AppHandler = (function(CobraHandler, DOMHelper) {
 		this.currentRoom = null;
 		this.user = null;
 		this.room = null;
+
 		/* Init DOM */
 		this.breadcrumb = DOMHelper.find(DOMHelper.serialize('div#breadcrumb'));
 		this.index = DOMHelper.find(DOMHelper.serialize('div#index'));
@@ -50,9 +51,12 @@ var AppHandler = (function(CobraHandler, DOMHelper) {
 
 		if (this.currentPage === "index") {
 			DOMHelper.show(this.index);
+			CobraHandler.disconnect();
 		} else if (this.currentPage === "list") {
 			DOMHelper.show(this.list);
 			DOMHelper.show(this.breadcrumb);
+
+			this.user = args.username;
 			CobraHandler.connection(args.room);
 		} else {
 			return ;
@@ -61,8 +65,8 @@ var AppHandler = (function(CobraHandler, DOMHelper) {
 
 	AppHandler.prototype.sendAnEntry = function(){
 		var message = DOMHelper.find(DOMHelper.serialize("input#entree"), DOMHelper.find(DOMHelper.serialize("div#insertingAnEntry"), this.list));
-		console.log(message);
-		CobraHelper.sendAnEntry(message.value);
+		CobraHelper.sendAnEntry(this.user, message.value);
+		message.value = "";
 	};
 
 	AppHandler.prototype.listenConnectButton = function() {
@@ -70,13 +74,9 @@ var AppHandler = (function(CobraHandler, DOMHelper) {
 		var list = DOMHelper.find(DOMHelper.serialize("input#listName_input"), DOMHelper.find(DOMHelper.serialize("p"), DOMHelper.find(DOMHelper.serialize("div#search"), this.index)));
 
 		(function(self) {
+			// J'écoute le clique sur le bouton de connection
 			DOMHelper.on('click', self.connectButton, function() {
-				DOMHelper.hide(DOMHelper.find(DOMHelper.serialize("div#connectError"), self.index));
-				if (DOMHelper.require(username) && DOMHelper.require(list)) {
-					AppHandler.prototype.change.call(self, 'list', {username: username.value, room: list.value});
-				} else {
-					DOMHelper.show(DOMHelper.find(DOMHelper.serialize("div#connectError"), self.index));
-				}
+				AppHandler.prototype.connectionHandler.call(self, username, list);
 			});
 		})(this);
 	};
@@ -95,6 +95,15 @@ var AppHandler = (function(CobraHandler, DOMHelper) {
 				self.sendAnEntry();
 			});
 		})(this);
+	};
+
+	AppHandler.prototype.connectionHandler = function(username, list) {
+		DOMHelper.hide(DOMHelper.find(DOMHelper.serialize("div#connectError"), this.index));
+		if (DOMHelper.require(username) && DOMHelper.require(list)) {
+			this.change('list', {username: username.value, room: list.value});
+		} else {
+			DOMHelper.show(DOMHelper.find(DOMHelper.serialize("div#connectError"), this.index));
+		}
 	};
 
 	return AppHandler;

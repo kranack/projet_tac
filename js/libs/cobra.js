@@ -14,6 +14,7 @@ var Cobra = (function(){
   }
 
   Cobra.prototype.connect = function(url){
+      console.log('connect');
       this.url = url;
       this.socket = io.connect(url);
       (function(self) {
@@ -39,8 +40,14 @@ var Cobra = (function(){
 
         self.socket.on('disconnect', function(){
           self.connected = false;
+          self.socketId = null;
         });
       })(this);
+  }
+
+  Cobra.prototype.disconnect = function() {
+    console.log('pd');
+    this.socket.disconnect();
   }
 
   Cobra.prototype.joinRoom = function(roomName){
@@ -52,9 +59,9 @@ var Cobra = (function(){
       }
   }
 
-  Cobra.prototype.sendMessage = function(message, roomName, toAll) {
+  Cobra.prototype.sendMessage = function(username, message, roomName, toAll) {
       if(this.connected) {
-          this.socket.emit('message', { room: roomName, message: message, date: new Date(), socketId: this.socket.id ,toAll: toAll});
+          this.socket.emit('message', { user:username, room: roomName, message: message, date: new Date(), socketId: this.socket.id ,toAll: toAll});
       }
   }
 
