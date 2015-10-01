@@ -25,6 +25,7 @@ div.list_body{
 }
 
 .breadcrumb,
-.list {
+.list,
+.error {
   display: none;
 }

@@ -27,7 +27,6 @@ var AppHandler = (function(CobraHandler, DOMHelper) {
 		this.list = DOMHelper.find(DOMHelper.serialize('div#list'));
 		this.connectButton = DOMHelper.find(DOMHelper.serialize("button#connectButton"), this.index);
 		this.submitEntree = DOMHelper.find(DOMHelper.serialize("button#submitEntree"), DOMHelper.find(DOMHelper.serialize("div#insertingAnEntry"), this.list));
-		console.log(this.submitEntree);
 	};
 
 	AppHandler.prototype.change = function(page, args) {
@@ -72,10 +71,11 @@ var AppHandler = (function(CobraHandler, DOMHelper) {
 
 		(function(self) {
 			DOMHelper.on('click', self.connectButton, function() {
+				DOMHelper.hide(DOMHelper.find(DOMHelper.serialize("div#connectError"), self.index));
 				if (DOMHelper.require(username) && DOMHelper.require(list)) {
 					AppHandler.prototype.change.call(self, 'list', {username: username.value, room: list.value});
 				} else {
-					console.log('error! REQUIRE username && list');
+					DOMHelper.show(DOMHelper.find(DOMHelper.serialize("div#connectError"), self.index));
 				}
 			});
 		})(this);
