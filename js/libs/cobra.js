@@ -36,6 +36,10 @@ var Cobra = (function(){
         self.socket.on("client_left_room", function(data) {
            self.clientLeftRoomCallback(data);
         });
+
+        self.socket.on('disconnect', function(){
+          self.connected = false;
+        });
       })(this);
   }
 
