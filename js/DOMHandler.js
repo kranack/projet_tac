@@ -37,8 +37,8 @@ var DOMHandler = (function(DOMObject) {
 	 */
 	DOMHandler.prototype.find = function(obj, parent) {
 		var i = 0,
-				j = 0,
-				referer = parent;
+			j = 0,
+			referer = parent;
 
 		if (obj === null || obj.element === null) {
 			return null;
@@ -149,6 +149,13 @@ var DOMHandler = (function(DOMObject) {
 
 		return object;
 	};
+
+	DOMHandler.prototype.getRandomColor = function() {
+		return '#'+'0123456789abcdef'.split('').map(function(v,i,a){
+  					return i>5 ? null : a[Math.floor(Math.random()*16)] 
+  				}).join('');
+
+	}
 
 	return DOMHandler;
 })(DOMObject);

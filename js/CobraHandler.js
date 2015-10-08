@@ -9,7 +9,7 @@ Array.prototype.contains = function(v) {
     return false;
 };
 
-var CobraHandler = (function(Cobra, DOMHelper){
+var CobraHandler = (function(Cobra, DOMHelper, DOMObject){
 
 	function CobraHandler() {
 		this.url = "http://cobra-framework.com:8080";
@@ -28,7 +28,9 @@ var CobraHandler = (function(Cobra, DOMHelper){
 	CobraHandler.prototype.displayUsers = function(){
 		var userList = DOMHelper.getElement('#users_list');
 		for(var i=0; i<this.users.length; i++) {
-			userList.html(this.users[i] + "<br>");
+			var element = '<span id="'+i+'">' + this.users[i] + '</span><br>';
+			userList.html(element);
+			userList.find(DOMHelper.serialize('span#'+i)).css("color : " + DOMHelper.getRandomColor()); 
 		}
 	};
 
@@ -72,7 +74,10 @@ var CobraHandler = (function(Cobra, DOMHelper){
 		               	var content = JSON.parse(result.Events[i].content);
 
 		               	var displayList = DOMHelper.getElement("#list_body");
-		               	displayList.html("<br>" + content.user + " : " + content.message);
+		               	var date = new Date(result.Events[i].timestamp);
+		               	var messageElement = "<br>" + date.toLocaleTimeString() + 
+		               		' ' + content.user + " : " + content.message;
+		               	displayList.html(messageElement);
 
 		               	if (!(self.users.contains(content.user))
 		               		&& (content.user != undefined)) {
@@ -99,15 +104,20 @@ var CobraHandler = (function(Cobra, DOMHelper){
 		else if (message.message) {
 		 // Message reçu, je le traite
 			var displayList = DOMHelper.getElement("#list_body");
-            displayList.html("<br>" + message.user + " : " + message.message);
+			var date = new Date();
+			var messageElement = "<br>" + date.toLocaleTimeString() + 
+		               		' ' + message.user + " : " + message.message;
+           	displayList.html(messageElement);
 	 	}
 	}
 
 	CobraHandler.prototype.clientJoinedRoomCallback = function(data) {
+		console.log('join room');
 		console.log(data);
+		console.log(JSON.stringify(data.clients));
 	}
 
 	return CobraHandler;
-})(Cobra, DOMHelper);
+})(Cobra, DOMHelper, DOMObject);
 
 var CobraHelper = new CobraHandler();

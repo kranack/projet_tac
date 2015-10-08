@@ -24,7 +24,7 @@ var Cobra = (function(){
         });
 
         self.socket.on('clients', function(data) {
-            console.log(data);
+            console.log('clients : ' + data);
         });
 
         self.socket.on("message", function(msg) {
@@ -55,12 +55,11 @@ var Cobra = (function(){
   };
 
   Cobra.prototype.joinRoom = function(roomName){
-      var self = this;
-      if(this.connected) {
-          this.socket.emit('joinRoom', roomName);
-          this.roomName = roomName;
-          self.joinRoomCallback(roomName);
-      }
+    if(this.connected) {
+        this.socket.emit('joinRoom', roomName);
+        this.roomName = roomName;
+        this.joinRoomCallback(roomName);
+    }
   }
 
   Cobra.prototype.sendMessage = function(username, message, roomName, toAll) {

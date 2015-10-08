@@ -2,11 +2,15 @@
 
 var DOMObject = (function() {
 
-  function DOMObject() {
+  function DOMObject(element) {
     this.element = "";
     this.attr = {};
     this.attr.name = "";
     this.attr.value = "";
+
+    if (element != undefined) {
+      this.element = element;
+    }
   };
 
   DOMObject.__defineGetter__('value', function() {return this.toString();});
@@ -36,6 +40,38 @@ var DOMObject = (function() {
     }
   };
 
+  DOMObject.prototype.find = function(obj) {
+    var i = 0,
+        j = 0,
+        referer = this.element;
+
+    if (obj === null || obj.element === null) {
+      return null;
+    }
+
+    if (referer === null || referer === undefined) {
+      referer = this.container;
+    }
+
+    for (i=0; i<referer.children.length; i++) {
+      if (referer.children[i].localName == obj.element) {
+        if (obj.isNull()) {
+          console.log('cool');
+          return new DOMObject(referer.children[i]);
+        }
+        var attr = referer.children[i].attributes;
+        for (j=0; j<attr.length; j++) {
+          if (attr[j].name == obj.attr.name
+              && attr[j].value == obj.attr.value) {
+            return new DOMObject(referer.children[i]);
+          }
+        }
+      }
+    }
+
+    return null;
+  }
+
   DOMObject.prototype.html = function(html) {
     if (html == undefined) {
       return this.element.innerHTML;
@@ -46,6 +82,16 @@ var DOMObject = (function() {
 
   DOMObject.prototype.append = function(DomObject) {
     this.html(DomObject.html());
+  };
+
+  DOMObject.prototype.css = function(css) {
+    var styles = css.split(';');
+
+    for (var i=0; i<styles.length; i++) {
+      var style = styles[i].split(':');
+      this.element.style[style[0].trim()] = style[1].trim();
+    }
+
   }
 
 
