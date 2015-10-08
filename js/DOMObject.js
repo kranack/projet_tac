@@ -27,6 +27,26 @@ var DOMObject = (function() {
     return false;
   };
 
+  DOMObject.prototype.getElement = function() {
+    switch(this.attr.name) {
+      case 'id':
+        this.element = document.getElementById(this.attr.value);
+      default:
+        break;
+    }
+  };
+
+  DOMObject.prototype.html = function(html) {
+    if (html == undefined) {
+      return this.element.innerHTML;
+    }
+
+    return this.element.innerHTML += html;
+  };
+
+  DOMObject.prototype.append = function(DomObject) {
+    this.html(DomObject.html());
+  }
 
 
   return DOMObject;

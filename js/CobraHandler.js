@@ -1,12 +1,22 @@
 /*Mise à jour des fonctionalités via les données reçues par cobra*/
 "use strict";
 
+// On rajoute une fonction contains sur les arrays
+Array.prototype.contains = function(v) {
+    for(var i = 0; i < this.length; i++) {
+        if(this[i] === v) return true;
+    }
+    return false;
+};
+
 var CobraHandler = (function(Cobra, DOMHelper){
 
 	function CobraHandler() {
 		this.url = "http://cobra-framework.com:8080";
 		this.apiUrl = "http://cobra-framework.com:3000/api/events/";
 		this.socketId = null;
+		this.user = null;
+		this.users = [];
 	}
 
 	/*Héritage de Cobra*/
@@ -15,8 +25,11 @@ var CobraHandler = (function(Cobra, DOMHelper){
 
 	/*Lors de l'ouverture de la liste de courses collaborative, gestion de l'entrée du pseudo choisi*/
 	/*mettre dans une variable pouvant être réutilisée par la suite*/
-	CobraHandler.prototype.updateNickNames = function(){
-
+	CobraHandler.prototype.displayUsers = function(){
+		var userList = DOMHelper.getElement('#users_list');
+		for(var i=0; i<this.users.length; i++) {
+			userList.html(this.users[i] + "<br>");
+		}
 	};
 
 	/*à chaque nouvelle entrée dans la liste, cette fonction devra prendre en compte le pseudo pour identifier qui a fait la nouvelle entrée*/
@@ -25,20 +38,21 @@ var CobraHandler = (function(Cobra, DOMHelper){
 
 	};
 
-	CobraHandler.prototype.sendAnEntry = function(user, message){
+	CobraHandler.prototype.sendAnEntry = function(message){
 
-		Cobra.prototype.sendMessage.call(this, user, message, this.roomName, true);
+		Cobra.prototype.sendMessage.call(this, this.user, message, this.roomName, true);
 
 	};
 	/*Utilisation de la classe cobra pour se connecter à la room*/
-	CobraHandler.prototype.connection = function(room){
+	CobraHandler.prototype.connection = function(user, room){
 		this.roomName = room;
+		this.user = user;
 		Cobra.prototype.connect.call(this, this.url);
 	};
 
 	CobraHandler.prototype.connectionCallback = function () {
         console.log(this.socket);
-		this.socket.emit("clients", {user: "test", toAll: true});
+		this.socket.emit("clients", {user: this.user, toAll: true});
 		Cobra.prototype.joinRoom.call(this, this.roomName);
 	};
 
@@ -48,21 +62,27 @@ var CobraHandler = (function(Cobra, DOMHelper){
       xhr.open('GET', this.apiUrl + roomName, true);
       xhr.send(null);
 
-     xhr.onreadystatechange = function() {
-        if (xhr.readyState == 4 && (xhr.status == 200 || xhr.status == 0)) {
-            console.log("complete");
-            var result = JSON.parse(xhr.response);
-            console.log(result);
-            for (var i = 0; i < result.Events.length; i++) {
-               var content = JSON.parse(result.Events[i].content);
+      	(function(self) {
+      		xhr.onreadystatechange = function() {
+		        if (xhr.readyState == 4 && (xhr.status == 200 || xhr.status == 0)) {
+		            console.log("complete");
+		            var result = JSON.parse(xhr.response);
+		            console.log(result);
+		            for (var i = 0; i < result.Events.length; i++) {
+		               	var content = JSON.parse(result.Events[i].content);
 
-               var displayList = document.getElementById("list_body");
-               displayList.innerHTML += "<br>" + content.user + " : " + content.message;
+		               	var displayList = DOMHelper.getElement("#list_body");
+		               	displayList.html("<br>" + content.user + " : " + content.message);
 
-               //console.log(content);
-            }
-        }
-      }
+		               	if (!(self.users.contains(content.user))
+		               		&& (content.user != undefined)) {
+		               		self.users.push(content.user);
+		               	}
+		            }
+		            self.displayUsers();
+		        }
+	     	}
+      	})(this);
 	}
 
 	CobraHandler.prototype.messageReceivedCallback = function (message) {
@@ -78,10 +98,13 @@ var CobraHandler = (function(Cobra, DOMHelper){
 		}
 		else if (message.message) {
 		 // Message reçu, je le traite
-		 //console.log(message.message);
-			var displayList = document.getElementById("list_body");
-            displayList.innerHTML += "<br>" + message.user + " : " + message.message;
+			var displayList = DOMHelper.getElement("#list_body");
+            displayList.html("<br>" + message.user + " : " + message.message);
 	 	}
+	}
+
+	CobraHandler.prototype.clientJoinedRoomCallback = function(data) {
+		console.log(data);
 	}
 
 	return CobraHandler;

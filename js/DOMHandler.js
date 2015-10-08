@@ -141,7 +141,14 @@ var DOMHandler = (function(DOMObject) {
 		}
 
 		return true;
-	}
+	};
+
+	DOMHandler.prototype.getElement = function(element) {
+		var object = this.serialize(element);
+		object.getElement();
+
+		return object;
+	};
 
 	return DOMHandler;
 })(DOMObject);

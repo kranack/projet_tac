@@ -57,14 +57,14 @@ var AppHandler = (function(CobraHandler, DOMHelper) {
 			DOMHelper.show(this.breadcrumb);
 
 			this.user = args.username;
-			CobraHandler.connection(args.room);
+			CobraHandler.connection(this.user, args.room);
 		} else {
 			return ;
 		}
 	};
 
 	AppHandler.prototype.sendAnEntry = function(message){
-		CobraHelper.sendAnEntry(this.user, message);
+		CobraHelper.sendAnEntry(message);
 	};
 
 	AppHandler.prototype.listenConnectButton = function() {
@@ -76,6 +76,7 @@ var AppHandler = (function(CobraHandler, DOMHelper) {
 			DOMHelper.on('click', self.connectButton, function() {
 				AppHandler.prototype.connectionHandler.call(self, username, list);
 			});
+			// J'écoute la touche entrée
             DOMHelper.on('keyup', username, function(event) {
                 if (event.keyCode == 13) {
                     AppHandler.prototype.connectionHandler.call(self, username, list);
