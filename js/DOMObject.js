@@ -56,7 +56,6 @@ var DOMObject = (function() {
     for (i=0; i<referer.children.length; i++) {
       if (referer.children[i].localName == obj.element) {
         if (obj.isNull()) {
-          console.log('cool');
           return new DOMObject(referer.children[i]);
         }
         var attr = referer.children[i].attributes;

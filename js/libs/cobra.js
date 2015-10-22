@@ -23,10 +23,6 @@ var Cobra = (function(){
             self.connectionCallback();
         });
 
-        self.socket.on('clients', function(data) {
-            console.log('clients : ' + data);
-        });
-
         self.socket.on("message", function(msg) {
             //console.log("message : " + JSON.stringify(msg));
             if(msg.type == "infos")

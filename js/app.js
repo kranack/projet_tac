@@ -1,6 +1,6 @@
 "use strict";
 
-var AppHandler = new AppHandler();
+var app = new AppHandler();
 
-var liste = new ListeCourse("ul");
-console.log(liste.render());
+var liste = new ListeCourseView();
+console.log(liste.render().$el.html());

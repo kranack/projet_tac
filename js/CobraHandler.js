@@ -30,7 +30,7 @@ var CobraHandler = (function(Cobra, DOMHelper, DOMObject){
 		for(var i=0; i<this.users.length; i++) {
 			var element = '<span id="'+i+'">' + this.users[i] + '</span><br>';
 			userList.html(element);
-			userList.find(DOMHelper.serialize('span#'+i)).css("color : " + DOMHelper.getRandomColor()); 
+			userList.find(DOMHelper.serialize('span#'+i)).css("color : " + DOMHelper.getRandomColor());
 		}
 	};
 
@@ -53,7 +53,7 @@ var CobraHandler = (function(Cobra, DOMHelper, DOMObject){
 	};
 
 	CobraHandler.prototype.connectionCallback = function () {
-        console.log(this.socket);
+    console.log(this.socket);
 		this.socket.emit("clients", {user: this.user, toAll: true});
 		Cobra.prototype.joinRoom.call(this, this.roomName);
 	};
@@ -63,31 +63,34 @@ var CobraHandler = (function(Cobra, DOMHelper, DOMObject){
       var xhr = new XMLHttpRequest();
       xhr.open('GET', this.apiUrl + roomName, true);
       xhr.send(null);
+    	(function(self) {
+    		xhr.onreadystatechange = function() {
+	        if (xhr.readyState == 4 && (xhr.status == 200 || xhr.status == 0)) {
+	            console.log("complete");
+	            var result = JSON.parse(xhr.response);
+              if (result.Error == true) {
+                console.log(result.Message);
+                return ;
+              }
+              console.log(result);
+	            for (var i = 0; i < result.Events.length; i++) {
+	               	var content = JSON.parse(result.Events[i].content);
 
-      	(function(self) {
-      		xhr.onreadystatechange = function() {
-		        if (xhr.readyState == 4 && (xhr.status == 200 || xhr.status == 0)) {
-		            console.log("complete");
-		            var result = JSON.parse(xhr.response);
-		            console.log(result);
-		            for (var i = 0; i < result.Events.length; i++) {
-		               	var content = JSON.parse(result.Events[i].content);
+	               	var displayList = DOMHelper.getElement("#list_body");
+	               	var date = new Date(result.Events[i].timestamp);
+	               	var messageElement = "<br>" + date.toLocaleTimeString() +
+	               		' ' + content.user + " : " + content.message;
+	               	displayList.html(messageElement);
 
-		               	var displayList = DOMHelper.getElement("#list_body");
-		               	var date = new Date(result.Events[i].timestamp);
-		               	var messageElement = "<br>" + date.toLocaleTimeString() + 
-		               		' ' + content.user + " : " + content.message;
-		               	displayList.html(messageElement);
-
-		               	if (!(self.users.contains(content.user))
-		               		&& (content.user != undefined)) {
-		               		self.users.push(content.user);
-		               	}
-		            }
-		            self.displayUsers();
-		        }
-	     	}
-      	})(this);
+	               	if (!(self.users.contains(content.user))
+	               		&& (content.user != undefined)) {
+	               		self.users.push(content.user);
+	               	}
+	            }
+	            self.displayUsers();
+	        }
+     	}
+    	})(this);
 	}
 
 	CobraHandler.prototype.messageReceivedCallback = function (message) {
@@ -105,17 +108,21 @@ var CobraHandler = (function(Cobra, DOMHelper, DOMObject){
 		 // Message reçu, je le traite
 			var displayList = DOMHelper.getElement("#list_body");
 			var date = new Date();
-			var messageElement = "<br>" + date.toLocaleTimeString() + 
+			var messageElement = "<br>" + date.toLocaleTimeString() +
 		               		' ' + message.user + " : " + message.message;
-           	displayList.html(messageElement);
+     	displayList.html(messageElement);
 	 	}
 	}
 
 	CobraHandler.prototype.clientJoinedRoomCallback = function(data) {
-		console.log('join room');
-		console.log(data);
-		console.log(JSON.stringify(data.clients));
+    this.users.push(data.id);
+    this.displayUsers();
+		//console.log(JSON.stringify(data.clients));
 	}
+
+  CobraHandler.prototype.clientLeftRoomCallback = function(data){
+      console.log("client " + data.id + " left room " + data.room);
+  }
 
 	return CobraHandler;
 })(Cobra, DOMHelper, DOMObject);
