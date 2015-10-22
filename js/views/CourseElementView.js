@@ -2,8 +2,8 @@
 
 var CourseElementView = (function(View) {
     function CourseElementView(element) {
-        this.tagName = (element === undefined) ? 'li' : element.tagName;
-        this.model = (element === undefined) ? null : element.model;
+        this.tagName = (element === undefined) ? 'li' : (element.tagName === undefined) ? 'li' : element.tagName;
+        this.model = (element === undefined) ? null : (element.model === undefined) ? null : element.model;
         View.call(this, arguments);
     };
 
@@ -12,6 +12,9 @@ var CourseElementView = (function(View) {
 
     CourseElementView.prototype.render = function() {
         this.$el.empty();
+
+        this.$el.attr('id', this.model.get('id'));
+        this.$el.append(this.model.get('label'));
 
         return this;
     };

@@ -14,6 +14,10 @@ var Element = (function() {
         this.element.innerHTML = "";
     };
 
+    Element.prototype.attr = function(attr, value) {
+        this.element.setAttribute(attr, value);
+    };
+
     Element.prototype.append = function(element) {
         var el = element;
         if (element instanceof Element) {
