@@ -9,14 +9,18 @@ Array.prototype.contains = function(v) {
     return false;
 };
 
-var CobraHandler = (function(Cobra, DOMHelper, DOMObject){
+var CobraHandler = (function(Cobra, DOMHelper, DOMObject, MessageListView, UserListView){
 
 	function CobraHandler() {
 		this.url = "http://cobra-framework.com:8080";
 		this.apiUrl = "http://cobra-framework.com:3000/api/events/";
 		this.socketId = null;
-		this.user = null;
+		this.user = new User();
 		this.users = [];
+
+        // Vues
+        this.messageListView = new MessageListView();
+        this.userListView = new UserListView();
 	}
 
 	/*Héritage de Cobra*/
@@ -40,22 +44,30 @@ var CobraHandler = (function(Cobra, DOMHelper, DOMObject){
 
 	};
 
-	CobraHandler.prototype.sendAnEntry = function(message){
-
-		Cobra.prototype.sendMessage.call(this, this.user, message, this.roomName, true);
-
+	CobraHandler.prototype.sendAnEntry = function(message, type){
+        Cobra.prototype.sendMessage.call(this, this.user.get('username'), message, this.user.get('room'), true, type);
 	};
+
+    CobraHandler.prototype.clientInfos = function(message) {
+        console.log(message.user);
+        this.userListView.users.push(new User({
+            username: message.user,
+            socketId: message.socketId
+        }));
+    };
+
 	/*Utilisation de la classe cobra pour se connecter à la room*/
 	CobraHandler.prototype.connection = function(user, room){
 		this.roomName = room;
-		this.user = user;
+		this.user.set('username', user);
+		this.user.set('room', room);
 		Cobra.prototype.connect.call(this, this.url);
 	};
 
 	CobraHandler.prototype.connectionCallback = function () {
-    console.log(this.socket);
-		this.socket.emit("clients", {user: this.user, toAll: true});
-		Cobra.prototype.joinRoom.call(this, this.roomName);
+        console.log(this.socket);
+		this.socket.emit("clients", {user: this.user.get('username'), toAll: true});
+		Cobra.prototype.joinRoom.call(this, this.user.get('room'));
 	};
 
 	CobraHandler.prototype.joinRoomCallback = function (roomName) {
@@ -73,25 +85,34 @@ var CobraHandler = (function(Cobra, DOMHelper, DOMObject){
                 return ;
               }
               console.log(result);
-	            for (var i = 0; i < result.Events.length; i++) {
+                for (var i = 0; i < result.Events.length; i++) {
 	               	var content = JSON.parse(result.Events[i].content);
+                    var user = new User({
+                        username: content.user,
+                        socketId: content.socketId
+                    });
+                    console.log(content);
+					self.messageListView.messages.push(new Message({
+                        content: content.message,
+                        user: user,
+                        timestamp: result.Events[i].timestamp,
+                        initialize: function() {
+                            this.date = new Date(content.date);
+                        }
+                    }));
 
-	               	var displayList = DOMHelper.getElement("#list_body");
-	               	var date = new Date(result.Events[i].timestamp);
+	               	/*var date = new Date(result.Events[i].timestamp);
 	               	var messageElement = "<br>" + date.toLocaleTimeString() +
 	               		' ' + content.user + " : " + content.message;
-	               	displayList.html(messageElement);
-
-	               	if (!(self.users.contains(content.user))
-	               		&& (content.user != undefined)) {
-	               		self.users.push(content.user);
-	               	}
+	               	displayList.html(messageElement);*/
+                    //self.userListView.users.push(user);
 	            }
-	            self.displayUsers();
 	        }
      	}
     	})(this);
-	}
+
+        this.socket.emit('message', { user: this.user.get('username'), room: this.user.get('room'), message: "", date: new Date(), socketId: this.socket.id ,toAll: true, type: "connect"});
+	};
 
 	CobraHandler.prototype.messageReceivedCallback = function (message) {
 		// Lors de l'arrivée dans une room donne la liste des utilisateurs contenus dans la room
@@ -106,17 +127,23 @@ var CobraHandler = (function(Cobra, DOMHelper, DOMObject){
 		}
 		else if (message.message) {
 		 // Message reçu, je le traite
-			var displayList = DOMHelper.getElement("#list_body");
-			var date = new Date();
-			var messageElement = "<br>" + date.toLocaleTimeString() +
-		               		' ' + message.user + " : " + message.message;
-     	displayList.html(messageElement);
+            var user = new User({
+                username: message.user
+            });
+            this.messageListView.messages.push(new Message({
+                content: message.message,
+                user: user,
+                timestamp: message.timestamp,
+                initialize: function() {
+                    this.date = new Date();
+                }
+            }));
 	 	}
 	}
 
 	CobraHandler.prototype.clientJoinedRoomCallback = function(data) {
-    this.users.push(data.id);
-    this.displayUsers();
+        //this.users.push(data.id);
+        //this.displayUsers();
 		//console.log(JSON.stringify(data.clients));
 	}
 
@@ -125,6 +152,6 @@ var CobraHandler = (function(Cobra, DOMHelper, DOMObject){
   }
 
 	return CobraHandler;
-})(Cobra, DOMHelper, DOMObject);
+})(Cobra, DOMHelper, DOMObject, MessageListView, UserListView);
 
 var CobraHelper = new CobraHandler();

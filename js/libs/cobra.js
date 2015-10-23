@@ -14,7 +14,7 @@ var Cobra = (function(){
   }
 
   Cobra.prototype.connect = function(url){
-      console.log('connect');
+      console.log('connect to ' + url);
       this.url = url;
       this.socket = io.connect(url);
       (function(self) {
@@ -24,10 +24,13 @@ var Cobra = (function(){
         });
 
         self.socket.on("message", function(msg) {
-            //console.log("message : " + JSON.stringify(msg));
-            if(msg.type == "infos")
-                self.socket.id = msg.socketId;
-            self.messageReceivedCallback(msg);
+            if (msg.type == "connect") {
+                self.clientInfos(msg);
+            } else {
+                if(msg.type == "infos")
+                    self.socket.id = msg.socketId;
+                self.messageReceivedCallback(msg);
+            }
         });
 
         self.socket.on("client_joined_room", function(data) {
@@ -58,9 +61,12 @@ var Cobra = (function(){
     }
   }
 
-  Cobra.prototype.sendMessage = function(username, message, roomName, toAll) {
+  Cobra.prototype.sendMessage = function(username, message, roomName, toAll, type) {
       if(this.connected) {
-          this.socket.emit('message', { user:username, room: roomName, message: message, date: new Date(), socketId: this.socket.id ,toAll: toAll});
+          if (type === undefined)
+            this.socket.emit('message', { user:username, room: roomName, message: message, date: new Date(), socketId: this.socket.id ,toAll: toAll});
+          else
+            this.socket.emit('message', { user:username, room: roomName, message: message, date: new Date(), socketId: this.socket.id ,toAll: toAll, type: type});
       }
   }
 

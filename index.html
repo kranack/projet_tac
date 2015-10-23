@@ -18,20 +18,24 @@
         <a class="btn btn-default" href="#">Retourner à l'index</a>
     </div>
     <div id="index">
+        <div><a href="#"> Voir les listes déjà existantes </a></div>
         <div id="nick" class="nick">
             <p>Choisir un pseudo : <input type="text" id="nickName_input" name="nickName"></p>
         </div>
         <div id="search" class="search">
-            <p>Rechercher une liste : <input type="text" id="listName_input" name="listName"></p>
+            <p>Créer/Rejoindre une liste : <input type="text" id="listName_input" name="listName"></p>
         </div>
         <button id="connectButton" class="btn btn-default">Connect</button>
         <div id="connectError" class="alert alert-danger error" role="alert">Veuillez remplir les champs !</div>
+    </div>
+    <div id="lists" class="lists">
+
     </div>
     <div id="list" class="list">
         <div id="listname">
         </div>
         <div id="insertingAnEntry">
-            Insertion : <input type="text" id="entree">
+            Message : <input type="text" id="entree">
             <button id="submitEntree" class="btn btn-default">Envoyer</button>
         </div>
         <div id="users_list">
@@ -45,23 +49,33 @@
 <script src="js/libs/socket.io.js"></script>
 <script src="js/libs/cobra.js"></script>
 
+<!-- DOM CLASS -->
+<script src="js/DOMObject.js"></script>
+<script src="js/DOMHandler.js"></script>
+
 <!-- FRMWRK -->
 <script src="js/frmwrk/Element.js"></script>
 <script src="js/frmwrk/Model.js"></script>
 <script src="js/frmwrk/View.js"></script>
+
+<!-- MODELS -->
+<script src="js/models/User.js"></script>
+<script src="js/models/Message.js"></script>
+
+<!-- COLLECTION -->
+<script src="js/Messages.js"></script>
+<script src="js/Users.js"></script>
 
 <!-- VIEWS -->
 <script src="js/views/CourseElementView.js"></script>
 <script src="js/views/ListeCourseView.js"></script>
 <script src="js/views/UserView.js"></script>
 <script src="js/views/UserListView.js"></script>
+<script src="js/views/MessageView.js"></script>
+<script src="js/views/MessageListView.js"></script>
 
-<!-- MODELS -->
-<script src="js/User.js"></script>
 
 <!-- CLASS -->
-<script src="js/DOMObject.js"></script>
-<script src="js/DOMHandler.js"></script>
 <script src="js/CobraHandler.js"></script>
 <script src="js/AppHandler.js"></script>
 <!-- APP -->

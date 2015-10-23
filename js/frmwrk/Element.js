@@ -4,6 +4,8 @@ var Element = (function() {
     function Element(tagName) {
         this.tagName = (tagName === undefined) ? 'div' : tagName;
         this.element = document.createElement(this.tagName);
+
+        this.events = {};
     };
 
     Element.prototype.html = function() {
@@ -24,6 +26,11 @@ var Element = (function() {
             el = element.html();
         }
         this.element.innerHTML += el;
+        this.events['append'].func.call(this.events['append'].ctx, el);
+    };
+
+    Element.prototype.on = function(event, ctx, callback) {
+        this.events[event] = {ctx: ctx, func: callback};
     };
 
     return Element;

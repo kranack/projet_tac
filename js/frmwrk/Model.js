@@ -3,6 +3,8 @@ var Model = (function() {
         for (var i in attributes) {
             this[i] = attributes[i];
         }
+
+        if (this.initialize != undefined) {this.initialize();}
     };
 
     Model.prototype.get = function(attr) {

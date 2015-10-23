@@ -75,12 +75,11 @@ var DOMObject = (function() {
     if (html == undefined) {
       return this.element.innerHTML;
     }
-
-    return this.element.innerHTML += html;
+    return this.element.innerHTML = html;
   };
 
   DOMObject.prototype.append = function(DomObject) {
-    this.html(DomObject.html());
+    this.element.innerHTML += DomObject.html();
   };
 
   DOMObject.prototype.css = function(css) {
