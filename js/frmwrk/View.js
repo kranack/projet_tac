@@ -25,5 +25,11 @@ var View = (function(Element, DOMHelper) {
             this.domElement.html(this.$el.html());
     };
 
+    View.prototype.getRandomColor = function() {
+        return '#'+'0123456789abcdef'.split('').map(function(v,i,a){
+                return i>5 ? null : a[Math.floor(Math.random()*16)]
+            }).join('');
+    };
+
     return View;
 })(Element, DOMHelper);

@@ -13,6 +13,7 @@ var UserView = (function(View) {
     UserView.prototype.render = function() {
         this.$el.empty();
 
+        this.$el.css('color', this.getRandomColor());
         this.$el.append(this.model.get('username'));
 
         return this;

@@ -4,6 +4,7 @@ var ListeCourseView = (function(View, CourseElementView) {
     function ListeCourseView(element) {
         this.tagName = (element === undefined) ? 'ul' : (element.tagName === undefined) ? 'ul' : element.tagName;
         this.courses = (element === undefined) ? [] : (element.courses === undefined) ? [] : element.courses;
+        this.domElement = DOMHelper.getElement("#courses_list");
         View.call(this);
     };
 
@@ -13,14 +14,18 @@ var ListeCourseView = (function(View, CourseElementView) {
     ListeCourseView.prototype.render = function() {
         this.$el.empty();
 
-        (function(self) {
+        (function(self){
             self.courses.forEach(function(course) {
-                var courseView = new CourseElementView({model: course});
-                self.$el.append(courseView.render().$el.html());
+                self.appendCourse(course);
             });
         })(this);
 
         return this;
+    };
+
+    ListeCourseView.prototype.appendCourse = function(course) {
+        var courseView = new CourseElementView({model: course});
+        this.$el.append(courseView.render().$el.html());
     };
 
     return ListeCourseView;

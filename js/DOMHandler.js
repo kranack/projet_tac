@@ -13,7 +13,7 @@ var DOMHandler = (function(DOMObject) {
 			"#": "id",
 			".": "class"
 		};
-	}
+	};
 
 	/**
 	 * Function update
@@ -26,7 +26,7 @@ var DOMHandler = (function(DOMObject) {
 		if (element !== undefined) {
 			element.innerHTML(data);
 		}
-	}
+	};
 
 
 	/**
@@ -115,7 +115,7 @@ var DOMHandler = (function(DOMObject) {
 		} else {
 			element.style.display = "block";
 		}
-	}
+	};
 
 	/**
 	 * Function : hide
@@ -130,7 +130,7 @@ var DOMHandler = (function(DOMObject) {
 		} else {
 			element.style.display = "none";
 		}
-	}
+	};
 
 	DOMHandler.prototype.require = function(element) {
 		if (element === undefined) {
@@ -155,7 +155,7 @@ var DOMHandler = (function(DOMObject) {
   					return i>5 ? null : a[Math.floor(Math.random()*16)] 
   				}).join('');
 
-	}
+	};
 
 	return DOMHandler;
 })(DOMObject);

@@ -8,6 +8,10 @@ var Element = (function() {
         this.events = {};
     };
 
+    Element.prototype.css = function(attr, style) {
+        this.element.style[attr] = value;
+    };
+
     Element.prototype.html = function() {
         return this.element.outerHTML;
     };

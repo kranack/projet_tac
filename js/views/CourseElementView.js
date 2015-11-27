@@ -4,7 +4,6 @@ var CourseElementView = (function(View) {
     function CourseElementView(element) {
         this.tagName = (element === undefined) ? 'li' : (element.tagName === undefined) ? 'li' : element.tagName;
         this.model = (element === undefined) ? null : (element.model === undefined) ? null : element.model;
-        this.domElement = DOMHelper.getElement("#courses_list");
         View.call(this, arguments);
     };
 

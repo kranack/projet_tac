@@ -24,6 +24,7 @@ var Cobra = (function(){
         });
 
         self.socket.on("message", function(msg) {
+            console.log(msg);
             if (msg.type == "connect") {
                 self.clientInfos(msg);
             } else {

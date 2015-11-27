@@ -9,6 +9,7 @@ var AppHandler = (function(CobraHandler, DOMHelper) {
 		this.listenConnectButton();
 		this.listenBreadcrumb();
 		this.listenSendButton();
+        this.listenListeCourse();
 
 		/* Setup Cobra */
 		//CobraHandler.connection();
@@ -26,8 +27,11 @@ var AppHandler = (function(CobraHandler, DOMHelper) {
 		this.breadcrumb = DOMHelper.find(DOMHelper.serialize('div#breadcrumb'));
 		this.index = DOMHelper.find(DOMHelper.serialize('div#index'));
 		this.list = DOMHelper.find(DOMHelper.serialize('div#list'));
+        this.lists = DOMHelper.find(DOMHelper.serialize('div#lists'));
+
 		this.connectButton = DOMHelper.find(DOMHelper.serialize("button#connectButton"), this.index);
 		this.submitEntree = DOMHelper.find(DOMHelper.serialize("button#submitEntree"), DOMHelper.find(DOMHelper.serialize("div#insertingAnEntry"), this.list));
+        this.listLink = DOMHelper.find(DOMHelper.serialize("a"), DOMHelper.find(DOMHelper.serialize("div#linkListCourses"), this.index));
 	};
 
 	AppHandler.prototype.change = function(page, args) {
@@ -36,6 +40,10 @@ var AppHandler = (function(CobraHandler, DOMHelper) {
 					// Go to list
 					this.currentPage = "list";
 				break;
+            case 'lists':
+                    // Go to lists
+                    this.currentPage = "lists";
+                break;
 			case 'index':
 			default:
 					// Return to index
@@ -51,14 +59,19 @@ var AppHandler = (function(CobraHandler, DOMHelper) {
 
 		if (this.currentPage === "index") {
 			DOMHelper.show(this.index);
-			CobraHandler.disconnect();
+			//CobraHandler.disconnect();
 		} else if (this.currentPage === "list") {
 			DOMHelper.show(this.list);
 			DOMHelper.show(this.breadcrumb);
 
 			this.user = args.username;
 			CobraHandler.connection(this.user, args.room);
-		} else {
+		} else if (this.currentPage === "lists") {
+            DOMHelper.show(this.lists);
+            DOMHelper.show(this.breadcrumb);
+
+            CobraHandler.getLists();
+        } else {
 			return ;
 		}
 	};
@@ -66,6 +79,14 @@ var AppHandler = (function(CobraHandler, DOMHelper) {
 	AppHandler.prototype.sendAnEntry = function(message){
 		CobraHelper.sendAnEntry(message);
 	};
+
+    AppHandler.prototype.listenListeCourse = function() {
+        (function(self) {
+            DOMHelper.on('click', self.listLink, function() {
+                AppHandler.prototype.change.call(self, 'lists');
+            });
+        })(this);
+    };
 
 	AppHandler.prototype.listenConnectButton = function() {
 		var username = DOMHelper.find(DOMHelper.serialize("input#nickName_input"), DOMHelper.find(DOMHelper.serialize("p"), DOMHelper.find(DOMHelper.serialize("div#nick"), this.index)));
