@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?><testsuite name="Chrome_45024480_Windows.users" errors="0" failures="0" tests="2" time="0.0">
+<testcase classname="Chrome_45024480_Windows.users" name="test test_usersAdd" time="0.0"/>
+<testcase classname="Chrome_45024480_Windows.users" name="test test_usersFindById" time="0.0"/>
+</testsuite>

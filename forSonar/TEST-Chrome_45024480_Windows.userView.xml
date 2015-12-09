@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?><testsuite name="Chrome_45024480_Windows.userView" errors="0" failures="0" tests="2" time="0.001">
+<testcase classname="Chrome_45024480_Windows.userView" name="test test_userViewAppendDefault" time="0.001"/>
+<testcase classname="Chrome_45024480_Windows.userView" name="test test_userViewAppendDiv" time="0.0"/>
+</testsuite>

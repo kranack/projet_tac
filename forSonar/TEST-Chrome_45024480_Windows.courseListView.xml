@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?><testsuite name="Chrome_45024480_Windows.courseListView" errors="0" failures="0" tests="2" time="0.004">
+<testcase classname="Chrome_45024480_Windows.courseListView" name="test test_courseListViewRender" time="0.003"/>
+<testcase classname="Chrome_45024480_Windows.courseListView" name="test test_courseListViewAppendDefault" time="0.001"/>
+</testsuite>

@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?><testsuite name="Chrome_45024480_Windows.message" errors="0" failures="0" tests="4" time="0.0">
+<testcase classname="Chrome_45024480_Windows.message" name="test test_messageGetter" time="0.0"/>
+<testcase classname="Chrome_45024480_Windows.message" name="test test_messageSetter" time="0.0"/>
+<testcase classname="Chrome_45024480_Windows.message" name="test test_messageEquals" time="0.0"/>
+<testcase classname="Chrome_45024480_Windows.message" name="test test_messageNotEquals" time="0.0"/>
+</testsuite>
