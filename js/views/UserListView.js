@@ -2,8 +2,8 @@
 
 var UserListView = (function(View, Users, UserView) {
     function UserListView(element) {
-        this.tagName = (element === undefined) ? 'ul' : element.tagName;
-        this.users = (element === undefined) ? new Users() : element.users;
+        this.tagName = (element === undefined || element.tagName === undefined) ? 'ul' : element.tagName;
+        this.users = (element === undefined || element.users === undefined) ? new Users() : element.users;
         this.domElement = DOMHelper.getElement("#users_list");
         View.call(this);
         this.initialize();

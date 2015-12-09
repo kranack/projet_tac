@@ -22,9 +22,10 @@ var DOMHandler = (function(DOMObject) {
 	 */
 	DOMHandler.prototype.update = function(currentElement, newElement) {
 		var element = this.find(currentElement);
+		var newElem = this.find(newElement);
 
 		if (element !== undefined) {
-			element.innerHTML(data);
+			element.innerHTML(newElem.innerHTML);
 		}
 	};
 
@@ -36,9 +37,7 @@ var DOMHandler = (function(DOMObject) {
 	 * @return {null|DOMElement}  DOMElement found in the container
 	 */
 	DOMHandler.prototype.find = function(obj, parent) {
-		var i = 0,
-			j = 0,
-			referer = parent;
+		var referer = parent;
 
 		if (obj === null || obj.element === null) {
 			return null;
@@ -48,16 +47,22 @@ var DOMHandler = (function(DOMObject) {
 			referer = this.container;
 		}
 
-		for (i=0; i<referer.children.length; i++) {
-			if (referer.children[i].localName == obj.element) {
-				if (obj.isNull()) {
-					return referer.children[i];
+		return this.checkAttributes(referer, obj);
+	};
+
+	DOMHandler.prototype.checkAttributes = function(attribute1, attribute2) {
+		var i, j;
+
+		for (i=0; i<attribute1.children.length; i++) {
+			if (attribute1.children[i].localName === attribute2.element) {
+				if (attribute2.isNull()) {
+					return attribute1.children[i];
 				}
-				var attr = referer.children[i].attributes;
+				var attr = attribute1.children[i].attributes;
 				for (j=0; j<attr.length; j++) {
-					if (attr[j].name == obj.attr.name
-							&& attr[j].value == obj.attr.value) {
-						return referer.children[i];
+					if (attr[j].name === attribute2.attr.name
+						&& attr[j].value === attribute2.attr.value) {
+						return attribute1.children[i];
 					}
 				}
 			}
@@ -152,9 +157,8 @@ var DOMHandler = (function(DOMObject) {
 
 	DOMHandler.prototype.getRandomColor = function() {
 		return '#'+'0123456789abcdef'.split('').map(function(v,i,a){
-  					return i>5 ? null : a[Math.floor(Math.random()*16)] 
-  				}).join('');
-
+			return i>5 ? null : a[Math.floor(Math.random()*16)];
+		}).join('');
 	};
 
 	return DOMHandler;

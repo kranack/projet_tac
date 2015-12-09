@@ -6,7 +6,7 @@ var Users = (function(User) {
         Array.call(this);
     };
 
-    Users.prototype = new Array();
+    Users.prototype = new Array;
     Users.prototype.constructor = Users;
 
     Users.prototype.push = function(user) {
@@ -15,22 +15,30 @@ var Users = (function(User) {
             var u = this.findById(user.get('socketId'));
             if (u !== null && u.get('username') === "") {
                 u.set('username', user.get('username'));
-                this.events['add'].func.call(this.events['add'].ctx, u);
+                if (this.events['add'] !== undefined) {
+                    this.events['add'].func.call(this.events['add'].ctx, u);
+                }
             } else {
-                this.events['add'].func.call(this.events['add'].ctx, user);
+                if (this.events['add'] !== undefined) {
+                    this.events['add'].func.call(this.events['add'].ctx, user);
+                }
                 Array.prototype.push.call(this, user);
             }
         }
     };
 
     Users.prototype.contains = function(user) {
-        this.forEach(function(u) {
-            if (u.equals(user)) {
-                return 1;
-            }
-        });
+        var result = 0;
+        (function(self) {
+            self.forEach(function (u) {
+                if (u.equals(user)) {
+                    result = 1;
+                    return;
+                }
+            });
+        })(this);
 
-        return 0;
+        return result;
     };
 
     Users.prototype.on = function(event, ctx, callback) {
@@ -38,11 +46,16 @@ var Users = (function(User) {
     };
 
     Users.prototype.findById = function(id) {
-        var user = this.forEach(function(u) {
-            if (id === u.get('socketId')) {
-                return u;
-            }
-        });
+        var user = undefined;
+        (function(self){
+            self.forEach(function(u) {
+                if (id === u.get('socketId')) {
+                    user = u;
+                    return ;
+                }
+            });
+        })(this);
+
         return (user !== undefined) ? user : null;
     };
 

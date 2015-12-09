@@ -12,7 +12,9 @@ var Messages = (function(Message) {
     Messages.prototype.push = function(message) {
         if (message instanceof Message
             && !this.contains(message)) {
-            this.events['add'].func.call(this.events['add'].ctx, message);
+            if (this.events['add'] !== undefined) {
+                this.events['add'].func.call(this.events['add'].ctx, message);
+            }
             Array.prototype.push.call(this, message);
         }
     };

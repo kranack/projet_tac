@@ -12,8 +12,6 @@ var AppHandler = (function(CobraHandler, DOMHelper) {
         this.listenListeCourse();
 
 		/* Setup Cobra */
-		//CobraHandler.connection();
-		//CobraHandler.joinRoom('test');
 	};
 
 	AppHandler.prototype.init = function() {
@@ -52,14 +50,13 @@ var AppHandler = (function(CobraHandler, DOMHelper) {
 		}
 
 		AppHandler.prototype.route.call(this, args);
-	}
+	};
 
 	AppHandler.prototype.route = function(args) {
 		DOMHelper.hide();
 
 		if (this.currentPage === "index") {
 			DOMHelper.show(this.index);
-			//CobraHandler.disconnect();
 		} else if (this.currentPage === "list") {
 			DOMHelper.show(this.list);
 			DOMHelper.show(this.breadcrumb);
@@ -99,12 +96,12 @@ var AppHandler = (function(CobraHandler, DOMHelper) {
 			});
 			// J'écoute la touche entrée
             DOMHelper.on('keyup', username, function(event) {
-                if (event.keyCode == 13) {
+                if (event.keyCode === 13) {
                     AppHandler.prototype.connectionHandler.call(self, username, list);
                 }
             });
             DOMHelper.on('keyup', list, function(event) {
-                if (event.keyCode == 13) {
+                if (event.keyCode === 13) {
                     AppHandler.prototype.connectionHandler.call(self, username, list);
                 }
             });
@@ -127,7 +124,7 @@ var AppHandler = (function(CobraHandler, DOMHelper) {
                 message.value = "";
 			});
             DOMHelper.on('keyup', message, function(event) {
-                if (event.keyCode == 13) {
+                if (event.keyCode === 13) {
                     self.sendAnEntry(message.value);
                     message.value = "";
                 }

@@ -2,12 +2,9 @@
 
 if (!Object.is) {
     Object.is = function(x, y) {
-        // SameValue algorithm
-        if (x === y) { // Steps 1-5, 7-10
-            // Steps 6.b-6.e: +0 != -0
+        if (x === y) {
             return x !== 0 || 1 / x === 1 / y;
         } else {
-            // Step 6.a: NaN == NaN
             return x !== x && y !== y;
         }
     };
@@ -25,10 +22,8 @@ var User = (function(Model) {
     User.prototype.constructor = User;
 
     User.prototype.equals = function(user) {
-        if (user instanceof User) {
-            if (user.get('username') == this.get('username')) {
-                return 1;
-            }
+        if (user instanceof User && user.get('username') === this.get('username')) {
+            return 1;
         }
         return 0;
     };

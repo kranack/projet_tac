@@ -8,7 +8,7 @@ var DOMObject = (function() {
     this.attr.name = "";
     this.attr.value = "";
 
-    if (element != undefined) {
+    if (element !== undefined) {
       this.element = element;
     }
   };
@@ -17,7 +17,7 @@ var DOMObject = (function() {
 
   DOMObject.prototype.toString = function() {
     return {element: this.element, attr: {name: this.attr.name, value: this.attr.value}};
-  }
+  };
 
   DOMObject.prototype.isNull = function() {
     if (this.attr[Object.keys(this.attr)[0]].trim() === "") {
@@ -32,18 +32,13 @@ var DOMObject = (function() {
   };
 
   DOMObject.prototype.getElement = function() {
-    switch(this.attr.name) {
-      case 'id':
-        this.element = document.getElementById(this.attr.value);
-      default:
-        break;
+    if (this.attr.name === 'id') {
+      this.element = document.getElementById(this.attr.value);
     }
   };
 
   DOMObject.prototype.find = function(obj) {
-    var i = 0,
-        j = 0,
-        referer = this.element;
+    var referer = this.element;
 
     if (obj === null || obj.element === null) {
       return null;
@@ -53,26 +48,32 @@ var DOMObject = (function() {
       referer = this.container;
     }
 
-    for (i=0; i<referer.children.length; i++) {
-      if (referer.children[i].localName == obj.element) {
-        if (obj.isNull()) {
-          return new DOMObject(referer.children[i]);
+    return this.checkAttributes(referer, obj);
+  };
+
+  DOMObject.prototype.checkAttributes = function(attribute1, attribute2) {
+    var i, j;
+
+    for (i=0; i<attribute1.children.length; i++) {
+      if (attribute1.children[i].localName === attribute2.element) {
+        if (attribute2.isNull()) {
+          return new DOMObject(attribute1.children[i]);
         }
-        var attr = referer.children[i].attributes;
+        var attr = attribute1.children[i].attributes;
         for (j=0; j<attr.length; j++) {
-          if (attr[j].name == obj.attr.name
-              && attr[j].value == obj.attr.value) {
-            return new DOMObject(referer.children[i]);
+          if (attr[j].name === attribute2.attr.name
+              && attr[j].value === attribute2.attr.value) {
+            return new DOMObject(attribute1.children[i]);
           }
         }
       }
     }
 
     return null;
-  }
+  };
 
   DOMObject.prototype.html = function(html) {
-    if (html == undefined) {
+    if (html === undefined) {
       return this.element.innerHTML;
     }
     return this.element.innerHTML = html;
@@ -90,7 +91,7 @@ var DOMObject = (function() {
       this.element.style[style[0].trim()] = style[1].trim();
     }
 
-  }
+  };
 
 
   return DOMObject;

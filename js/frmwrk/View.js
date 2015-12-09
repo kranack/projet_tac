@@ -1,6 +1,6 @@
 
 
-var View = (function(Element, DOMHelper) {
+var View = (function(Element) {
 
     function View () {
         this.tagName = (this.tagName === undefined) ? 'div' : this.tagName;
@@ -26,10 +26,11 @@ var View = (function(Element, DOMHelper) {
     };
 
     View.prototype.getRandomColor = function() {
-        return '#'+'0123456789abcdef'.split('').map(function(v,i,a){
-                return i>5 ? null : a[Math.floor(Math.random()*16)]
-            }).join('');
+        return '#'+'0123456789abcdef'.split('')
+                .map(function(v,i,a){
+                    return i>5 ? null : a[Math.floor(Math.random()*16)];
+                }).join('');
     };
 
     return View;
-})(Element, DOMHelper);
+})(Element);

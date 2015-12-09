@@ -12,18 +12,11 @@ var Message = (function(Model) {
     Message.prototype.constructor = Message;
 
     Message.prototype.equals = function(message) {
-        if (message instanceof Message) {
-            for(var key in message) {
-                var value = message[key];
+        var key = null;
+        if (message instanceof Message && Object.size(message) === Object.size(this)) {
+            for(key in message) {
                 if (this[key] === undefined
-                    || value !== this[key]) {
-                    return 0;
-                }
-            }
-            for(var key in this) {
-                var value = this[key];
-                if (message[key] === undefined
-                    || value !== message[key]) {
+                    || message[key] !== this[key]) {
                     return 0;
                 }
             }

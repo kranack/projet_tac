@@ -8,7 +8,7 @@ var Element = (function() {
         this.events = {};
     };
 
-    Element.prototype.css = function(attr, style) {
+    Element.prototype.css = function(attr, value) {
         this.element.style[attr] = value;
     };
 
@@ -30,7 +30,9 @@ var Element = (function() {
             el = element.html();
         }
         this.element.innerHTML += el;
-        this.events['append'].func.call(this.events['append'].ctx, el);
+        if (this.events['append'] !== undefined) {
+            this.events['append'].func.call(this.events['append'].ctx, el);
+        }
     };
 
     Element.prototype.on = function(event, ctx, callback) {

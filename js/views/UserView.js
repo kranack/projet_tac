@@ -2,8 +2,8 @@
 
 var UserView = (function(View) {
     function UserView(element) {
-        this.tagName = (element === undefined) ? 'li' : element.tagName;
-        this.model = (element === undefined) ? null : element.model;
+        this.tagName = (element === undefined || element.tagName === undefined) ? 'li' : element.tagName;
+        this.model = (element === undefined || element.model === undefined) ? null : element.model;
         View.call(this);
     };
 
