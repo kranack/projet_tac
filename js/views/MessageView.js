@@ -13,13 +13,13 @@ var MessageView = (function(View) {
     MessageView.prototype.render = function() {
         this.$el.empty();
 
-        var date = new Element('span');
-        date.append(this.model.get('user').username);
-        date.css('color', this.getRandomColor());
+        var userElement = new Element('span');
+        userElement.append(this.model.get('user').username);
+        userElement.css('color', this.getRandomColor());
 
-        this.$el.append('<br>' + this.model.get('date'));
-        this.$el.append(date);
-        this.$el.append(this.model.get('content'));
+        this.$el.append('<br>[' + this.model.get('date') + '] ');
+        this.$el.append(userElement);
+        this.$el.append(': ' + this.model.get('content'));
 
         return this;
     };
