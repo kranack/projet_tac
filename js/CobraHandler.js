@@ -123,7 +123,7 @@ var CobraHandler = (function(Cobra, DOMHelper, DOMObject, MessageListView, UserL
                 user: user,
                 timestamp: message.timestamp,
                 initialize: function() {
-                    this.date = new Date.now().toLocaleString();
+                    this.date = Date.now().toLocaleString();
                 }
             }));
 	 	}
