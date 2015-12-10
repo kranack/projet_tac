@@ -12,7 +12,9 @@ var Model = (function() {
             this[i] = attributes[i];
         }
 
-        if (this.initialize !== undefined) {this.initialize();}
+        if (this.initialize !== undefined) {
+            this.initialize();
+        }
     };
 
     Model.prototype.get = function(attr) {
@@ -21,7 +23,7 @@ var Model = (function() {
 
     Model.prototype.set = function(attr, value) {
         this[attr] = value;
-    }
+    };
     /*Model.extend = function(model) {
         var props = Object.getOwnPropertyNames(model);
         props.forEach(function(prop) {
