@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?><testsuite name="Firefox_390_Linux.users" errors="0" failures="0" tests="2" time="0.001">
+<testcase classname="Firefox_390_Linux.users" name="test test_usersAdd" time="0.001"/>
+<testcase classname="Firefox_390_Linux.users" name="test test_usersFindById" time="0.0"/>
+</testsuite>

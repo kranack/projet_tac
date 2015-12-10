@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?><testsuite name="Firefox_390_Linux.userView" errors="0" failures="0" tests="2" time="0.001">
+<testcase classname="Firefox_390_Linux.userView" name="test test_userViewAppendDefault" time="0.0"/>
+<testcase classname="Firefox_390_Linux.userView" name="test test_userViewAppendDiv" time="0.001"/>
+</testsuite>

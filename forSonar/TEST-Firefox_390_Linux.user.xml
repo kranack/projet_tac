@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?><testsuite name="Firefox_390_Linux.user" errors="0" failures="0" tests="4" time="0.001">
+<testcase classname="Firefox_390_Linux.user" name="test test_userGetter" time="0.0"/>
+<testcase classname="Firefox_390_Linux.user" name="test test_userSetter" time="0.0"/>
+<testcase classname="Firefox_390_Linux.user" name="test test_usersEquals" time="0.001"/>
+<testcase classname="Firefox_390_Linux.user" name="test test_usersNotEquals" time="0.0"/>
+</testsuite>

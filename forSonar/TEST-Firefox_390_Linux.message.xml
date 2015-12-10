@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?><testsuite name="Firefox_390_Linux.message" errors="0" failures="0" tests="4" time="0.004">
+<testcase classname="Firefox_390_Linux.message" name="test test_messageGetter" time="0.001"/>
+<testcase classname="Firefox_390_Linux.message" name="test test_messageSetter" time="0.001"/>
+<testcase classname="Firefox_390_Linux.message" name="test test_messageEquals" time="0.001"/>
+<testcase classname="Firefox_390_Linux.message" name="test test_messageNotEquals" time="0.001"/>
+</testsuite>

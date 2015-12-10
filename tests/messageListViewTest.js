@@ -42,6 +42,6 @@ test("test_messageListViewAppend", 1, function() {
     var list = messageListElement.childNodes[0];
 
     strictEqual(messageListElement.innerHTML,
-        '<div><div><br>07-12-2015 08:08:01<span style="color: '+list.childNodes[0].childNodes[2].style.color+';">John</span>hello</div>' +
-        '<div><br>07-12-2015 08:09:26<span style="color: '+list.childNodes[1].childNodes[2].style.color+';">Jack</span>hello! What\'s up?</div></div>');
+        '<div><div class="message"><br>[07-12-2015 08:08:01]<span class="user" style="color: '+list.childNodes[0].childNodes[2].style.color+';">John</span>: <span class="content">hello</span></div>' +
+        '<div class="message"><br>[07-12-2015 08:09:26]<span class="user" style="color: '+list.childNodes[1].childNodes[2].style.color+';">Jack</span>: <span class="content">hello! What\'s up?</span></div></div>');
 });

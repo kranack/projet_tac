@@ -16,10 +16,12 @@ var MessageView = (function(View) {
         var userElement = new Element('span');
         userElement.append(this.model.get('user').username);
         userElement.css('color', this.getRandomColor());
+        userElement.attr('class', 'user');
 
-        this.$el.append('<br><div class="message">[' + this.model.get('date') + '] <span class="user">');
+        this.$el.append('<br>[' + this.model.get('date') + ']');
         this.$el.append(userElement);
-        this.$el.append('</div>: <span class="content">' + this.model.get('content') + '</span></div>');
+        this.$el.append(': <span class="content">' + this.model.get('content') + '</span>');
+        this.$el.attr('class', 'message');
 
         return this;
     };

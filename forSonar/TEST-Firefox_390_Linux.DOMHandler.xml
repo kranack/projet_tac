@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="UTF-8"?><testsuite name="Firefox_390_Linux.DOMHandler" errors="0" failures="0" tests="3" time="0.003">
+<testcase classname="Firefox_390_Linux.DOMHandler" name="test test_DOMHandlerGetElement" time="0.001"/>
+<testcase classname="Firefox_390_Linux.DOMHandler" name="test test_DOMHandlerHideElement" time="0.001"/>
+<testcase classname="Firefox_390_Linux.DOMHandler" name="test test_DOMHandlerShowElement" time="0.001"/>
+</testsuite>

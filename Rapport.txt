@@ -1,0 +1,51 @@
+Calesse Damien
+Lemoine Matthew
+
+
+                                            Projet TAC - OTI
+
+
+Nous avons choisi de découper les tests de cette facon :
+    - La partie fonctionnelle, le coeur de l'application (Models, Vues, Handers) avec QUnit
+    - La partie interface utilisateur, le retour visuel de l'application (Ecriture au sein du DOM) avec Selenium IDE
+
+Pour information, il y a 2 sonar.h2.db, un pour le PC de la fac et un pour notre PC personnel.
+Vous trouverez également 2 screenshots de Sonar : un avant les tests et correctifs et un après.
+
+1 - Tests QUnit
+
+    Nous avons mis en place des Tests pour s'assurer du bon fonctionnement des modules de notre application.
+    Les tests couvrent la base de l'application, à savoir les classes les plus bas niveaux : Model, User, Message ainsi
+    que les différentes vues utilisées pour l'affichage d'un et d'une liste d'Utilisateur et celle d'un et d'une liste
+    de Message.
+
+    Nous sommes arrivés à une couverture de 65,5% de notre code.
+
+
+2 - Tests Selenium IDE
+
+    Contrairement aux tests QUnit, il y a peu de tests Selenium IDE. Cela vient du fait qu'il y a très peu de retour
+    à l'écran pour notre application.
+
+    Il y a un test pour la connexion à un canal d'un utilisateur ainsi qu'un autre pour l'envoi d'un message.
+
+
+3 - Retour sur les Tests
+
+    La mise en place de Sonar et de JsTestDriver a été très facile, pas de problème majeur à signaler au niveau de la
+    configuration.
+    La résolution de certains bugs détectés par Sonar par contre a été très frustrante car il nous détecte des syntaxes
+    utilisées comme étant des bugs. Par exemple, "use strict" est utilisé dans de nombreux plugins javascript et
+    tous les modules nodejs, pourtant il est détecté comme un bug par Sonar.
+
+    La création des tests QUnit a été assez simple. Elle ne comprend que des tests assez simples mais efficaces pour
+    empêcher toute régression des composants principaux. Il existe des cas plus rares qui mériterait des tests mais qui
+    n'ont pas été réalisés par manque de temps.
+
+
+4 - Apports
+
+    La correction des bugs et la mise en place des tests nous a permis de mettre en place les bonnes pratiques liées
+    au javascript au sein de notre projet. Les tests ainsi que Sonar nous permettent d'avoir un meilleur suivi de notre
+    code et son évolution (régressions, meilleure couverture, etc...).
+

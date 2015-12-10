@@ -1,0 +1,3 @@
+<?xml version="1.0" encoding="UTF-8"?><testsuite name="Firefox_390_Linux.messageListView" errors="0" failures="0" tests="1" time="0.003">
+<testcase classname="Firefox_390_Linux.messageListView" name="test test_messageListViewAppend" time="0.003"/>
+</testsuite>
